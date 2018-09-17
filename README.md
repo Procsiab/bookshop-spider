@@ -16,7 +16,9 @@ Sul telefono apriamo una connessione bluetooth verso il PC
 
 Infine, apriamo sul PC un terminale in ascolto sulla porta seriale designata in precedenza
 
-    screen /dev/rfcomm0 115200 
+    screen /dev/rfcomm0 115200
+
+Riceveremo nel terminale la string con l'ISBN inviato dall'app
     
 ## App sul telefono
 
@@ -32,6 +34,12 @@ Entrate nella directory col terminale e digitate
 
 In questo modo entrerete nel virtualenv di Python da cui potrete invocare il comando di scrapy seguente:
 
+    python main.py 0000000000000
+
+dove al posto della serie di zeri bisogna inserire l'ISBN ricevuto
+
+In alternativa, potete usare solo lo spider tramite il comando
+
     scrapy crawl bookspider -a isbn=0000000000000
 
-dove a seguire `isbn=` va inserito l'ISBN ricevuto dal telefono via bluetooth
+dove di seguito `isbn=` va inserito l'ISBN ricevuto dal telefono via bluetooth

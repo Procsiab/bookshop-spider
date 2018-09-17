@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from scrapy import signals
@@ -29,4 +31,7 @@ def main():
     process.start()
 
 if __name__ == '__main__':
-   main()
+    # Usa il primo argomento da riga di comando come ISBN ricevuto
+    if len(sys.argv) > 1 and sys.argv[1] is not None:
+        ISBN_RECEIVED = sys.argv[1]
+    main()

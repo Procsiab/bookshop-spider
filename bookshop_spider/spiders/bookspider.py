@@ -1,4 +1,5 @@
-# Importa il modulo per web spider
+#!/usr/bin/python3
+
 import scrapy
 
 # La classe pincipale estende scrapy.Spider
