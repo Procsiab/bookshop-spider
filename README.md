@@ -32,6 +32,6 @@ Entrate nella directory col terminale e digitate
 
 In questo modo entrerete nel virtualenv di Python da cui potrete invocare il comando di scrapy seguente:
 
-    scrapy crawl main -a isbn=0000000000000
+    scrapy crawl bookspider -a isbn=0000000000000
 
 dove a seguire `isbn=` va inserito l'ISBN ricevuto dal telefono via bluetooth

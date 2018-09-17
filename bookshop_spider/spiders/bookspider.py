@@ -4,8 +4,13 @@ import scrapy
 # La classe pincipale estende scrapy.Spider
 class BookSpider(scrapy.Spider):
     # Alias per lo spider
-    name = "main"
-    # URL per iniziare lo scraping
+    name = "bookspider"
+    # Disablita logging
+    custom_settings = {'LOG_ENABLED': False}
+    # Dizionario per salvare i dati otenuti
+    result = {}
+
+    # URL per iniziare lo scraping, riceve ISBN come argomento -a
     def start_requests(self):
         url = 'https://www.amazon.it/s/ref=nb_sb_ss_i_9_4?__mk_it_IT=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Daps&field-keywords=isbn+'
         isbn = getattr(self, 'isbn', None)
@@ -25,19 +30,17 @@ class BookSpider(scrapy.Spider):
     # Callback da eseguire per secondo, dopo aver seguito il link in parse()
     def parse_result(self, response):
         book = {} # Salva info libro nel dizionario Python
-        book['title'] = response.css("span.a-size-large::text").extract_first()
-        book['year'] = response.css("h1.a-size-large span::text").extract()[2][2:]
+        book['titolo'] = response.css("span.a-size-large::text").extract_first()
+        book['anno'] = response.css("h1.a-size-large span::text").extract()[2][2:]
         for item in response.css("div.content li"):
             first = item.css("li b::text").extract_first()
             second = item.css("li::text").extract_first()[1:]
             if first == 'Editore:':
-                book['editor'] = second
+                book['editore'] = second
             elif first == 'Collana:':
-                book['coll'] = second
+                book['collana'] = second
             elif first == 'ISBN-13:':
                 book['isbn'] = second
             else:
                 pass
-        print('\n', "<>"*20)
-        print(book) # Stampa info salvate
-        print("<>"*20, '\n')
+        self.result = book # Salva le informazioni nella variabile di istanza
