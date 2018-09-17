@@ -2,27 +2,36 @@
 
 Programma per raccogliere dati su un libro via ISBN ricevuto da bluetooth (scansione tramite app smartphone o PDA dedicato)
 
-## Preparazione sul PC (bluetooth seriale)
+## Preparazione del Bluetooth
 
-The steps bellow worked for me:
+Per prima cosa è necessario abbinare il telefono col PC
 
-Firstly you have to pair the devices. Pairing is relatively easy. I will call client (who starts talking) and server (who replies)
-
-You have to setup the server before: Server side (as root):
+Sul PC bisogna prima preparare un servizio in ascolcto (come root):
 
     sdptool add --channel=3 SP
     mknod -m 666 /dev/rfcomm0 c 216 0
     rfcomm watch /dev/rfcomm0 3 /sbin/agetty rfcomm0 115200 linux
 
-Client side(as root):
+Sul telefono apriamo una connessione bluetooth verso il PC
 
-    sdptool add --channel=3 SP
-    rfcomm connect /dev/rfcomm0 [SERVER_ADDR] 3
+Infine, apriamo sul PC un terminale in ascolto sulla porta seriale designata in precedenza
 
-Now to open a serial terminal on the client:
+    screen /dev/rfcomm0 115200 
+    
+## App sul telefono
 
-    screen /dev/rfcomm0 115200
+Avviate l'app sul telefono e toccate *"Connetti"*; selezionate poi il PC. A questo punto sarà possibile acquisire un ISBN e infine inviare l'ISBN letto al PC.
 
-Comments:
-When you call the last command rfcomm connect... in the client, a device /dev/rfcomm0 will be created and associated to the server /dev/recomm0. This represents the serial link between both.
-The last server command: rfcomm watch.... will 'listen' for incoming connections. In connection lost, the command will restart a new 'listen' state.
+L'app invierà via Bluetooth la stringa `ISBN_0000000000000` 
+
+## Scraping da Amazon
+
+Entrate nella directory col terminale e digitate
+
+    source bin/activate
+
+In questo modo entrerete nel virtualenv di Python da cui potrete invocare il comando di scrapy seguente:
+
+    scrapy crawl main -a isbn=0000000000000
+
+dove a seguire `isbn=` va inserito l'ISBN ricevuto dal telefono via bluetooth
