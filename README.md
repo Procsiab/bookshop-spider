@@ -26,7 +26,7 @@ Avviate l'app sul telefono e toccate *"Connetti"*; selezionate poi il PC. A ques
 
 L'app invierà via Bluetooth la stringa `ISBN_0000000000000` 
 
-## Scraping da Amazon
+## Scraping da Amazon (sul PC)
 
 Entrate nella directory col terminale e digitate
 
@@ -43,3 +43,5 @@ In alternativa, potete usare solo lo spider tramite il comando
     scrapy crawl bookspider -a isbn=0000000000000
 
 dove di seguito `isbn=` va inserito l'ISBN ricevuto dal telefono via bluetooth
+
+Lo script `main.py` crea un file *result.csv* (se non presente) e vi aggiunge i risultati ottanuti dallo spider

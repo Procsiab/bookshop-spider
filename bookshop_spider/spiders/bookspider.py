@@ -18,7 +18,7 @@ class BookSpider(scrapy.Spider):
         if isbn is not None:
             url = url + isbn
         else:
-            url = url + '9781118999875' # Linux Bible
+            url = url + '9788808220851'
         yield scrapy.Request(url, self.parse)
 
     # Callback da eseguire dopo la richiesta HTTP
@@ -30,9 +30,10 @@ class BookSpider(scrapy.Spider):
     
     # Callback da eseguire per secondo, dopo aver seguito il link in parse()
     def parse_result(self, response):
-        book = {} # Salva info libro nel dizionario Python
+        book = {'titolo': None, 'anno': None, 'editore': None, 'collana': None, 'isbn': None} # Salva info libro nel dizionario Python
         book['titolo'] = response.css("span.a-size-large::text").extract_first()
         book['anno'] = response.css("h1.a-size-large span::text").extract()[2][2:]
+        # Cerca dati nella descrizione prodotto
         for item in response.css("div.content li"):
             first = item.css("li b::text").extract_first()
             second = item.css("li::text").extract_first()[1:]
