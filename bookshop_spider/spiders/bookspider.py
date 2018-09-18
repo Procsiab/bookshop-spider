@@ -10,12 +10,10 @@ class BookSpider(scrapy.Spider):
     name = "bookspider"
     # Disablita logging dello spider
     custom_settings = {'LOG_ENABLED': False}
+    # Disabilita logging di scrapy
+    logging.getLogger('scrapy').propagate = False
     # Dizionario per salvare i dati otenuti
     result = {}
-
-    # Disabilita logging di scrapy
-    def __init__(self):
-        logging.getLogger('scrapy').propagate = False
 
     # URL per iniziare lo scraping, riceve ISBN come argomento -a
     def start_requests(self):
