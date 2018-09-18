@@ -2,15 +2,20 @@
 # -*- coding: utf_8 -*
 
 import scrapy
+import logging
 
 # La classe pincipale estende scrapy.Spider
 class BookSpider(scrapy.Spider):
     # Alias per lo spider
     name = "bookspider"
-    # Disablita logging
+    # Disablita logging dello spider
     custom_settings = {'LOG_ENABLED': False}
     # Dizionario per salvare i dati otenuti
     result = {}
+
+    # Disabilita logging di scrapy
+    def __init__(self):
+        logging.getLogger('scrapy').propagate = False
 
     # URL per iniziare lo scraping, riceve ISBN come argomento -a
     def start_requests(self):

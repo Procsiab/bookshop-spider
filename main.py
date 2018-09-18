@@ -12,6 +12,7 @@ sys.path.append(os.path.abspath("/home/l3r0/Documenti/py_stuff/bookshop_spider/b
 from bookspider import BookSpider
 
 import csv
+import time
 
 # Variabile globale per l'ISBN ricevuto
 ISBN_RECEIVED = None
@@ -58,20 +59,24 @@ def close_spider(spider, reason):
 
 # Funzione eseguita all'avvio dello script
 def main():
+    print("Inserisci un ISBN e premi invio per raccogliere i dati, oppure inserisci 'stop' per terminare")
     mySpider = BookSpider()
     process = CrawlerProcess(get_project_settings())
     crawler = process.create_crawler(mySpider)
+    # Connetti la funzione close_spider al segnale spider_closed
+    crawler.signals.connect(close_spider, signals.spider_closed)
     # Ricevi ISBN
     global ISBN_RECEIVED
     while ISBN_RECEIVED != "stop":
         if ISBN_RECEIVED is None:
             ISBN_RECEIVED = input("\n[ISBN] > ")
         if ISBN_RECEIVED != "stop":
-            # Connetti la funzione close_spider al segnale spider_closed
-            crawler.signals.connect(close_spider, signals.spider_closed)
             # Avvia il processo assegnato allo spider m
             process.crawl(crawler, isbn=ISBN_RECEIVED)
             process.start()
+            # Permetti di rieseguire il proceso, da https://stackoverflow.com/a/47127561
+            time.sleep(0.5)
+            os.execl(sys.executable, sys.executable, *sys.argv)
             ISBN_RECEIVED = None
 
 if __name__ == '__main__':
