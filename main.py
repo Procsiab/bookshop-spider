@@ -14,7 +14,7 @@ from bookspider import BookSpider
 import csv
 
 # Variabile globale per l'ISBN ricevuto
-ISBN_RECEIVED = ""
+ISBN_RECEIVED = None
 # Nome del file che conterrà i risultati
 RESULT_FILE_NAME = "result.csv"
 
