@@ -38,16 +38,17 @@ def create_csv(dic):
 # Helper per rimuovere la punteggiatura riservata dalle stringhe che andranno nel file CSV
 def csvfy(string):
     s = string
-    for ch in [',',';']:
-        if ch in s:
-            s = s.replace(ch, "")
+    if s is not None and type(s) == str:
+        for ch in [', ','; ',',',';']:
+            if ch in s:
+                s = s.replace(ch, " ")
     return s
 
 # Funzione chiamata subito prima della chiusura dello spider
 def close_spider(spider, reason):
     print("Ricerca terminata per l'ISBN ricevuto:")
     for key, value in spider.result.items():
-        #spider.result[key] = csvfy(value)
+        spider.result[key] = csvfy(value)
         print("  {0}: {1}".format(key, value))
     # Creo il file per salvare i risultati, se non presente
     create_csv(spider.result)
