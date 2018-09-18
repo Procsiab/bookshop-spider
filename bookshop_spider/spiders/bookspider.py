@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# -*- coding: utf_8 -*
 
 import scrapy
 

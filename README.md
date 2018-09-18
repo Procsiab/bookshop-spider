@@ -34,9 +34,9 @@ Entrate nella directory col terminale e digitate
 
 In questo modo entrerete nel virtualenv di Python da cui potrete invocare il comando di scrapy seguente:
 
-    python main.py 0000000000000
+    python main.py <isbn>
 
-dove al posto della serie di zeri bisogna inserire l'ISBN ricevuto
+dove al posto di `<isbn>` è possibile inserire l'ISBN ricevuto opzionalmente; se eseguite il comando omettendo l'argomento, un prompt **[ISBN] >** comparirà, accettando ISBN da cercare, fino all'inserimento di *"stop"*; il prompt compare anche dopo la prima ricerca effettuata specificando l'argomento `<isbn>`.
 
 In alternativa, potete usare solo lo spider tramite il comando
 

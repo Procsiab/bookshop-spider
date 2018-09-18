@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# -*- coding: utf_8 -*
 
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
@@ -13,7 +14,7 @@ from bookspider import BookSpider
 import csv
 
 # Variabile globale per l'ISBN ricevuto
-ISBN_RECEIVED = None
+ISBN_RECEIVED = ""
 # Nome del file che conterrà i risultati
 RESULT_FILE_NAME = "result.csv"
 
@@ -60,12 +61,18 @@ def main():
     mySpider = BookSpider()
     process = CrawlerProcess(get_project_settings())
     crawler = process.create_crawler(mySpider)
-
-    # Connetti la funzione close_spider al segnale spider_closed
-    crawler.signals.connect(close_spider, signals.spider_closed)
-    # Avvia il processo assegnato allo spider m
-    process.crawl(crawler, isbn=ISBN_RECEIVED)
-    process.start()
+    # Ricevi ISBN
+    global ISBN_RECEIVED
+    while ISBN_RECEIVED != "stop":
+        if ISBN_RECEIVED is None:
+            ISBN_RECEIVED = input("\n[ISBN] > ")
+        if ISBN_RECEIVED != "stop":
+            # Connetti la funzione close_spider al segnale spider_closed
+            crawler.signals.connect(close_spider, signals.spider_closed)
+            # Avvia il processo assegnato allo spider m
+            process.crawl(crawler, isbn=ISBN_RECEIVED)
+            process.start()
+            ISBN_RECEIVED = None
 
 if __name__ == '__main__':
     # Usa il primo argomento da riga di comando come ISBN ricevuto
