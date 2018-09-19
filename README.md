@@ -44,4 +44,4 @@ In alternativa, potete usare solo lo spider tramite il comando
 
 dove di seguito `isbn=` va inserito l'ISBN ricevuto dal telefono via bluetooth
 
-Lo script `main.py` crea un file *result.csv* (se non presente) e vi aggiunge i risultati ottanuti dallo spider
+Lo script `main.py` crea un file *result.csv* (se non presente) e vi aggiunge i risultati ottanuti dallo spider; le lettere *sds* sono aggiunte prima della prima riga del file, contenente i nomi delle colonne.

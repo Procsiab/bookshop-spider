@@ -34,6 +34,7 @@ def create_csv(dic):
     except FileNotFoundError:
         print("Creo file result.csv")
         with open(RESULT_FILE_NAME, 'w') as f:
+            f.write("sds")
             w = csv.DictWriter(f, dic.keys())
             w.writeheader()
 
