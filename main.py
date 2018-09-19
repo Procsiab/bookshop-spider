@@ -68,17 +68,21 @@ def main():
     crawler.signals.connect(close_spider, signals.spider_closed)
     # Ricevi ISBN
     global ISBN_RECEIVED
-    while ISBN_RECEIVED != "stop":
-        if ISBN_RECEIVED is None:
+    if ISBN_RECEIVED is not None: # Se avvio con argomento
+        # Avvia il processo assegnato allo spider
+        process.crawl(crawler, isbn=ISBN_RECEIVED)
+        process.start()
+    else: # Altrimenti se avvio senza argomento
+        while ISBN_RECEIVED != "stop":
             ISBN_RECEIVED = input("\n[ISBN] > ")
-        if ISBN_RECEIVED != "stop":
-            # Avvia il processo assegnato allo spider m
-            process.crawl(crawler, isbn=ISBN_RECEIVED)
-            process.start()
-            # Permetti di rieseguire il proceso, da https://stackoverflow.com/a/47127561
-            time.sleep(0.5)
-            os.execl(sys.executable, sys.executable, *sys.argv)
-            ISBN_RECEIVED = None
+            if ISBN_RECEIVED != "stop":
+                # Avvia il processo assegnato allo spider
+                process.crawl(crawler, isbn=ISBN_RECEIVED)
+                process.start()
+                ISBN_RECEIVED = None
+                # Permetti di rieseguire il proceso, da https://stackoverflow.com/a/47127561
+                time.sleep(0.5)
+                os.execl(sys.executable, sys.executable, *sys.argv)
 
 if __name__ == '__main__':
     # Usa il primo argomento da riga di comando come ISBN ricevuto
