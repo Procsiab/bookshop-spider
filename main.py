@@ -8,7 +8,7 @@ from scrapy import signals
 # Importa la classe dello spider BookSpider
 import sys
 import os
-sys.path.append(os.path.abspath("/home/l3r0/Documenti/py_stuff/bookshop_spider/bookshop_spider/spiders"))
+sys.path.insert(1, '/home/l3r0/Documenti/script_python/bookshop_spider/bookshop_spider/spiders')
 from bookspider import BookSpider
 
 import csv
@@ -61,7 +61,7 @@ def close_spider(spider, reason):
 # Funzione eseguita all'avvio dello script
 def main():
     print("Inserisci un ISBN e premi invio per raccogliere i dati, oppure inserisci 'stop' per terminare")
-    mySpider = BookSpider()
+    mySpider = "bookspider"
     process = CrawlerProcess(get_project_settings())
     crawler = process.create_crawler(mySpider)
     # Connetti la funzione close_spider al segnale spider_closed

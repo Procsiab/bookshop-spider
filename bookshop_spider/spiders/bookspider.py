@@ -27,11 +27,11 @@ class BookSpider(scrapy.Spider):
 
     # Callback da eseguire dopo la richiesta HTTP
     def parse(self, response):
-        first_result_url = response.css("a.s-access-detail-page::attr(href)").extract_first()
+        first_result_url = response.css("a.a-link-normal.a-text-normal::attr(href)").extract_first()
         if first_result_url is not None:
             next_page = response.urljoin(first_result_url)
             yield scrapy.Request(next_page, callback=self.parse_result)
-    
+
     # Callback da eseguire per secondo, dopo aver seguito il link in parse()
     def parse_result(self, response):
         book = {'titolo': None, 'anno': None, 'editore': None, 'collana': None, 'isbn': None} # Salva info libro nel dizionario Python

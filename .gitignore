@@ -1,9 +1,3 @@
-bin/
-lib/
-lib64
-pip-selfcheck.json
-pyvenv.cfg
-bookshop_spider/spiders/__pycache__/
 .vscode/
+.venv/
 result.csv
-.~*
