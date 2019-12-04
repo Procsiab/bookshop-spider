@@ -1,23 +1,20 @@
 #!/usr/bin/python3
 # -*- coding: utf_8 -*
 
+import csv
+import time
+import sys
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from scrapy import signals
-
 # Importa la classe dello spider BookSpider
-import sys
-import os
-sys.path.insert(1, '/home/l3r0/Documenti/script_python/bookshop_spider/bookshop_spider/spiders')
-from bookspider import BookSpider
-
-import csv
-import time
+from bookshop_spider.spiders.bookspider import BookSpider
 
 # Variabile globale per l'ISBN ricevuto
 ISBN_RECEIVED = None
 # Nome del file che conterrà i risultati
 RESULT_FILE_NAME = "result.csv"
+
 
 # Aggiunge al file CSV i risultati ottenuti da Amazon.it
 def append_dic_csv(dic):
@@ -25,6 +22,7 @@ def append_dic_csv(dic):
         w = csv.DictWriter(f, dic.keys())
         w.writerow(dic)
     print("Informazioni aggiunto al file result.csv")
+
 
 # Inizializza il file che conterrà i dati CSV ottenuti dallo spider
 def create_csv(dic):
@@ -38,14 +36,16 @@ def create_csv(dic):
             w = csv.DictWriter(f, dic.keys())
             w.writeheader()
 
+
 # Helper per rimuovere la punteggiatura riservata dalle stringhe che andranno nel file CSV
 def csvfy(string):
     s = string
     if s is not None and type(s) == str:
-        for ch in [', ','; ',',',';']:
+        for ch in [', ', '; ', ',', ';']:
             if ch in s:
                 s = s.replace(ch, " ")
     return s
+
 
 # Funzione chiamata subito prima della chiusura dello spider
 def close_spider(spider, reason):
@@ -58,6 +58,7 @@ def close_spider(spider, reason):
     # Aggiungo una nuova riga coi risultati al file
     append_dic_csv(spider.result)
 
+
 # Funzione eseguita all'avvio dello script
 def main():
     print("Inserisci un ISBN e premi invio per raccogliere i dati, oppure inserisci 'stop' per terminare")
@@ -68,11 +69,11 @@ def main():
     crawler.signals.connect(close_spider, signals.spider_closed)
     # Ricevi ISBN
     global ISBN_RECEIVED
-    if ISBN_RECEIVED is not None: # Se avvio con argomento
+    if ISBN_RECEIVED is not None:  # Se avvio con argomento
         # Avvia il processo assegnato allo spider
         process.crawl(crawler, isbn=ISBN_RECEIVED)
         process.start()
-    else: # Altrimenti se avvio senza argomento
+    else:  # Altrimenti se avvio senza argomento
         while ISBN_RECEIVED != "stop":
             ISBN_RECEIVED = input("\n[ISBN] > ")
             if ISBN_RECEIVED != "stop":
@@ -83,6 +84,7 @@ def main():
                 # Permetti di rieseguire il proceso, da https://stackoverflow.com/a/47127561
                 time.sleep(0.5)
                 os.execl(sys.executable, sys.executable, *sys.argv)
+
 
 if __name__ == '__main__':
     # Usa il primo argomento da riga di comando come ISBN ricevuto

@@ -4,6 +4,7 @@
 import scrapy
 import logging
 
+
 # La classe pincipale estende scrapy.Spider
 class BookSpider(scrapy.Spider):
     # Alias per lo spider
@@ -49,4 +50,4 @@ class BookSpider(scrapy.Spider):
                 book['isbn'] = second
             else:
                 pass
-        self.result = book # Salva le informazioni nella variabile di istanza
+        self.result = book  # Salva le informazioni nella variabile di istanza
